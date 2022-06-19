@@ -6,7 +6,8 @@ public class EnemyMove : MonoBehaviour
 {
     [SerializeField]
     private GameObject player;
-    private PathCreator pathCreator;
+    [SerializeField]
+    private GameObject pathCreator;
 
     //private Vector3[] pathToTarget;
     private Vector3 pointToGo;
@@ -18,6 +19,8 @@ public class EnemyMove : MonoBehaviour
     {
         speed = player.GetComponent<PlayerMove>().GetSpeed();
         GetNewPoint();
+        /*pathCreator.GetComponent<PathCreator>().Astar(new Vector2Int((int)this.transform.position.x/2,
+            (int)this.transform.position.z/2), new Vector2Int((int)player.transform.position.x / 2, (int)player.transform.position.z / 2));*/
     }
 
     // Update is called once per frame
@@ -36,8 +39,17 @@ public class EnemyMove : MonoBehaviour
 
     private void GetNewPoint()
     {
-        //pointToGo = pathCreator;//получаем точку
-        pointToGo = player.transform.position;//TMP path
+        Vector2Int startPoint = new Vector2Int((int)this.transform.position.x, (int)this.transform.position.z);
+        if(this.transform.position.x-startPoint.x>0.5)
+        {
+            startPoint.x += 1;
+        }
+        if(this.transform.position.z - startPoint.y > 0.5)
+        {
+            startPoint.y += 1;
+        }
+        pointToGo = pathCreator.GetComponent<PathCreator>().Astar(new Vector2Int(startPoint.x / 2, startPoint.y / 2), 
+                new Vector2Int((int)player.transform.position.x / 2, (int)player.transform.position.z / 2));
         vectorToGo = GetSideMove(this.transform.position, pointToGo);
     }
 
@@ -45,7 +57,9 @@ public class EnemyMove : MonoBehaviour
     {
         bool retValue = false;
         if (Mathf.Abs(point1.x - point2.x) <= 0.1 && Mathf.Abs(point1.z - point2.z) <= 0.1)
+        {
             retValue = true;
+        }
         return retValue;
     }
 
@@ -55,7 +69,7 @@ public class EnemyMove : MonoBehaviour
         float xSide = 0,
             zSide = 0;
         xSide = endPoint.x-startPoint.x;
-        zSide = endPoint.y - startPoint.y;
+        zSide = endPoint.z - startPoint.z;
         if(Mathf.Abs(xSide)> Mathf.Abs(zSide))
         {
             if(xSide>0)

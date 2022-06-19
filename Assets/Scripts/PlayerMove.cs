@@ -29,4 +29,9 @@ public class PlayerMove : MonoBehaviour
     {
         return speed;
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("ENTER!");
+    }
 }
