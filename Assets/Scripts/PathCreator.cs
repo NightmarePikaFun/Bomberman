@@ -5,17 +5,61 @@ using UnityEngine;
 
 public class PathCreator : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject boxModel;
+
+    [SerializeField]
+    private GameObject nodeModel;
+    [SerializeField]
+    private Terrain landscape = null;
+    [SerializeField]
+    private int gridDelta = 100;
+
+    private PathNode[,] grid = null;
+    private int[,] mapa = null;
+
+    private int sizeX;
+    private int sizeZ;
+
     void Start()
     {
-        //Debug.Log("start");
-        
+        Vector3 terrainSize = landscape.terrainData.bounds.size;
+        sizeX = (int)(terrainSize.x / gridDelta);
+        sizeZ = (int)(terrainSize.z / gridDelta);
+        mapa = new int[sizeX, sizeZ];
+        for (int x = 0; x < sizeX; x++)
+        {
+            for (int z = 0; z < sizeZ; z++)
+            {
+                mapa[x, z] = 0;
+            }
+        }
+        mapa[4 / gridDelta, 10 / gridDelta] = 1;
+        mapa[(int)(14/ gridDelta), (int)(16/gridDelta)] = 1;
+
+        for(int i = 1;i< mapa.GetLength(0); i+=2)
+        {
+            for (int j = 1; j < mapa.GetLength(1); j += 2)
+            {
+                mapa[i, j] = 1;
+            }
+        }
+
+        for (int i = 0; i < mapa.GetLength(0); i++)
+        {
+            for (int j = 0; j < mapa.GetLength(1); j++)
+            {
+                if (mapa[i, j] == 1)
+                    Instantiate(boxModel, new Vector3(i * gridDelta, 0, j * gridDelta), Quaternion.identity);
+            }
+        }
     }
 
     void InitStart()
     {
         Vector3 terrainSize = landscape.terrainData.bounds.size;
-        int sizeX = (int)(terrainSize.x / gridDelta);
-        int sizeZ = (int)(terrainSize.z / gridDelta);
+        sizeX = (int)(terrainSize.x / gridDelta);
+        sizeZ = (int)(terrainSize.z / gridDelta);
         grid = new PathNode[sizeX, sizeZ];
         for (int x = 0; x < sizeX; x++)
         {
@@ -29,21 +73,21 @@ public class PathCreator : MonoBehaviour
         }
     }
 
-    [SerializeField]
-    private GameObject nodeModel;
-    [SerializeField]
-    private Terrain landscape = null;
-    [SerializeField]
-    private int gridDelta = 100;
-
-    private PathNode[,] grid = null;
-
     private void CheckWalkableNodes()
     {
-        foreach(PathNode node in grid)
+        for(int i = 0; i <grid.GetLength(0);i++)
+        {
+            for(int j = 0; j<grid.GetLength(1);j++)
+            {
+                grid[i,j].walkable = true;
+                if (mapa[i, j] == 1)
+                    grid[i, j].walkable = false;
+            }
+        }
+        /*foreach(PathNode node in grid)//переписать на for
         {
             node.walkable = true;
-            /*if (Physics.CheckSphere(node.body.transform.position, 0.1f))
+            if (Physics.CheckSphere(node.body.transform.position, 0.1f))
             {
                 //node.walkable = false;
             }
@@ -52,8 +96,8 @@ public class PathCreator : MonoBehaviour
             else
             {
                 node.Red();
-            }*/
-        }
+            }
+        }*/
     }
 
     private List<Vector2Int> GetNeighbours(Vector2Int current)
@@ -77,6 +121,7 @@ public class PathCreator : MonoBehaviour
         {
             nodes.Add(new Vector2Int(x+1, y));
         }
+        //8 соседий
         /*for (int x = current.x - 1; x <= current.x + 1; ++x)
             for (int y = current.y - 1; y <= current.y + 1; ++y)
                 if (x >= 0 && y >= 0 && x < grid.GetLength(0) && y < grid.GetLength(1) && (x != current.x || y != current.y))
@@ -88,7 +133,6 @@ public class PathCreator : MonoBehaviour
     {
         InitStart();
         int ds = 0;
-        //Debug.Log("Start A*");
         //  Очищаем все узлы - сбрасываем отметку родителя, снимаем подсветку
         foreach (var node in grid)
         {
@@ -96,6 +140,8 @@ public class PathCreator : MonoBehaviour
             node.ParentNode = null;
         }
         CheckWalkableNodes();
+        Debug.Log(sizeX+" t "+ sizeZ);
+        Debug.Log(startNode.x+ " n "+ startNode.y);
         PathNode start = grid[startNode.x, startNode.y];
         start.ParentNode = null;
         start.Distance = 0;
@@ -134,8 +180,10 @@ public class PathCreator : MonoBehaviour
             }
             pathElem = pathElem.ParentNode;
         }
-        //Debug.Log("End A* " + ds);
         grid = null;
+        if ((outElem.x / gridDelta == finishNode.x && outElem.x / gridDelta != startNode.x)
+            && (outElem.z / gridDelta == finishNode.y && outElem.z / gridDelta != startNode.y))
+            outElem = new Vector3(startNode.x * gridDelta, 0, startNode.y * gridDelta);
         return outElem;
     }
 }

@@ -7,7 +7,7 @@ public class PathNode //: MonoBehaviour
     public bool walkable;           //  Свободна для перемещения
     public Vector3 worldPosition;   //  Позиция в глобальных координатах
     private GameObject objPrefab;   //  Шаблон объекта
-    //public GameObject body;         //  Объект для отрисовки
+    public GameObject body;         //  Объект для отрисовки
 
     private PathNode parentNode = null;               //  откуда пришли
 
@@ -72,4 +72,25 @@ public class PathNode //: MonoBehaviour
             //Vector3.Distance(a.body.transform.position, b.body.transform.position) + 40 * Mathf.Abs(a.body.transform.position.y - b.body.transform.position.y);
     }
 
+    public void Illuminate()
+    {
+        body.GetComponent<Renderer>().material.color = Color.green;
+    }
+    /// <summary>
+    /// Снять подсветку с вершины - перекрасить в синий
+    /// </summary>
+    public void Fade()
+    {
+        body.GetComponent<Renderer>().material.color = Color.blue;
+    }
+
+    public void Gray()
+    {
+        body.GetComponent<Renderer>().material.color = Color.gray;
+    }
+
+    public void Red()
+    {
+        body.GetComponent<Renderer>().material.color = Color.red;
+    }
 }
