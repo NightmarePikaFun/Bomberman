@@ -269,7 +269,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 29434a1fe03fc4a4b9aec18a315de73a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -549,6 +549,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2082501327}
     - target: {fileID: 6636777150652309042, guid: a9af973ff7544a24b886c79835a975ac, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636777150652309042, guid: a9af973ff7544a24b886c79835a975ac, type: 3}
       propertyPath: pathCreator
       value: 
       objectReference: {fileID: 1424096413}
@@ -559,6 +563,10 @@ PrefabInstance:
     - target: {fileID: 6636777150652309045, guid: a9af973ff7544a24b886c79835a975ac, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636777150652309045, guid: a9af973ff7544a24b886c79835a975ac, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9af973ff7544a24b886c79835a975ac, type: 3}
@@ -575,9 +583,11 @@ GameObject:
   - component: {fileID: 2082501329}
   - component: {fileID: 2082501328}
   - component: {fileID: 2082501332}
+  - component: {fileID: 2082501333}
+  - component: {fileID: 2082501334}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -674,6 +684,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.1
+--- !u!54 &2082501333
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2082501327}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!114 &2082501334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2082501327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f085bf92afbf024bb8744aa42538761, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bomb: {fileID: 471448294746493416, guid: bb64f02fcf73b8e40a50767526252718, type: 3}
 --- !u!1001 &6636777151251875756
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -740,6 +779,10 @@ PrefabInstance:
     - target: {fileID: 6636777150652309045, guid: a9af973ff7544a24b886c79835a975ac, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636777150652309045, guid: a9af973ff7544a24b886c79835a975ac, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9af973ff7544a24b886c79835a975ac, type: 3}

@@ -15,7 +15,7 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.W))
             this.transform.Translate(new Vector3(-speed, 0, 0));
         else if (Input.GetKey(KeyCode.S))
             this.transform.Translate(new Vector3(speed, 0, 0));
@@ -30,8 +30,5 @@ public class PlayerMove : MonoBehaviour
         return speed;
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log("ENTER!");
-    }
+    
 }

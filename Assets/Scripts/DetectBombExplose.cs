@@ -15,4 +15,14 @@ public class DetectBombExplose : MonoBehaviour
     {
         
     }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Enemy" || other.gameObject.tag == "Player" || other.gameObject.tag == "Wall")
+        {
+            Debug.Log("¡¿’");
+            Destroy(other.gameObject);
+        }
+    }
 }
