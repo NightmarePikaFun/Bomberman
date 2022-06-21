@@ -84,20 +84,6 @@ public class PathCreator : MonoBehaviour
                     grid[i, j].walkable = false;
             }
         }
-        /*foreach(PathNode node in grid)//переписать на for
-        {
-            node.walkable = true;
-            if (Physics.CheckSphere(node.body.transform.position, 0.1f))
-            {
-                //node.walkable = false;
-            }
-            if (node.walkable)
-                node.Fade();
-            else
-            {
-                node.Red();
-            }
-        }*/
     }
 
     private List<Vector2Int> GetNeighbours(Vector2Int current)
@@ -185,5 +171,27 @@ public class PathCreator : MonoBehaviour
             && (outElem.z / gridDelta == finishNode.y && outElem.z / gridDelta != startNode.y))
             outElem = new Vector3(startNode.x * gridDelta, 0, startNode.y * gridDelta);
         return outElem;
+    }
+
+    public Vector2Int CheckCoordsRight(Vector3 input)
+    {
+        Vector2Int output = new Vector2Int((int)input.x, (int)input.z);
+        if (input.x - output.x > 0.5)
+        {
+            output.x += 1;
+        }
+        if (input.z - output.y > 0.5)
+        {
+            output.y += 1;
+        }
+        return output;
+    }
+
+    public bool CheckWall(Vector2Int input)
+    {
+        bool retValue = true;
+        if (mapa[(int)(input.x / gridDelta), (int)(input.y / gridDelta)] == 1)
+            retValue = false;
+        return retValue;
     }
 }

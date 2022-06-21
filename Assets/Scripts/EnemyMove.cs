@@ -39,26 +39,13 @@ public class EnemyMove : MonoBehaviour
 
     private void GetNewPoint()
     {
-        Vector2Int startPoint = CheckCoordsRight(this.transform.position);//new Vector2Int((int)this.transform.position.x, (int)this.transform.position.z);
-        Vector2Int playerPos = CheckCoordsRight(player.transform.position);// new Vector2Int((int)player.transform.position.x, (int)player.transform.position.z);
+        Vector2Int startPoint = pathCreator.GetComponent<PathCreator>().CheckCoordsRight(this.transform.position);//new Vector2Int((int)this.transform.position.x, (int)this.transform.position.z);
+        Vector2Int playerPos = pathCreator.GetComponent<PathCreator>().CheckCoordsRight(player.transform.position);// new Vector2Int((int)player.transform.position.x, (int)player.transform.position.z);
         pointToGo = pathCreator.GetComponent<PathCreator>().Astar(new Vector2Int(startPoint.x / 2, startPoint.y / 2), 
                 new Vector2Int(playerPos.x / 2, playerPos.y / 2));
         vectorToGo = GetSideMove(this.transform.position, pointToGo);
     }
 
-    private Vector2Int CheckCoordsRight(Vector3 input)
-    {
-        Vector2Int output = new Vector2Int((int)input.x, (int)input.z);
-        if (input.x - output.x > 0.5)
-        {
-            output.x += 1;
-        }
-        if (input.z - output.y > 0.5)
-        {
-            output.y += 1;
-        }
-        return output;
-    }
 
     private bool EqualsPoint(Vector3 point1, Vector3 point2)
     {
