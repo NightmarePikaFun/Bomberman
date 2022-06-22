@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Bomb : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject xWall, zWall;
+    //[SerializeField]
+    //private GameObject xWall, zWall;
     [SerializeField]
     private GameObject exploseBlock;
     [SerializeField]
@@ -25,9 +25,10 @@ public class Bomb : MonoBehaviour
         {
             Instantiate(exploseBlock, new Vector3(coords[i].x*2, 1, coords[i].y*2), Quaternion.identity);
         }
-        xWall.SetActive(true);
-        zWall.SetActive(true);
-        Invoke("DestroyBomb", 0.2f);
+        //xWall.SetActive(true);
+        //zWall.SetActive(true);
+        Destroy(this.gameObject);
+        //Invoke("DestroyBomb", 0.2f);
     }
 
     private void DestroyBomb()

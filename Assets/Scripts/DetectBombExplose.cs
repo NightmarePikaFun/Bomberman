@@ -7,7 +7,7 @@ public class DetectBombExplose : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Invoke("DeleteFireWall", 0.3f);
     }
 
     // Update is called once per frame
@@ -24,5 +24,10 @@ public class DetectBombExplose : MonoBehaviour
             Debug.Log("¡¿’");
             Destroy(other.gameObject);
         }
+    }
+
+    private void DeleteFireWall()
+    {
+        Destroy(this.gameObject);
     }
 }

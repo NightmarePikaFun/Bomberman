@@ -26,33 +26,16 @@ public class PathCreator : MonoBehaviour
         Vector3 terrainSize = landscape.terrainData.bounds.size;
         sizeX = (int)(terrainSize.x / gridDelta);
         sizeZ = (int)(terrainSize.z / gridDelta);
-        mapa = new int[sizeX, sizeZ];
-        for (int x = 0; x < sizeX; x++)
-        {
-            for (int z = 0; z < sizeZ; z++)
-            {
-                mapa[x, z] = 0;
-            }
-        }
-        mapa[4 / gridDelta, 10 / gridDelta] = 1;
-        mapa[(int)(14/ gridDelta), (int)(16/gridDelta)] = 1;
-
-        for(int i = 1;i< mapa.GetLength(0); i+=2)
-        {
-            for (int j = 1; j < mapa.GetLength(1); j += 2)
-            {
-                mapa[i, j] = 1;
-            }
-        }
-
-        for (int i = 0; i < mapa.GetLength(0); i++)
-        {
-            for (int j = 0; j < mapa.GetLength(1); j++)
-            {
-                if (mapa[i, j] == 1)
-                    Instantiate(boxModel, new Vector3(i * gridDelta, 0, j * gridDelta), Quaternion.identity);
-            }
-        }
+        //mapa = this.gameObject.GetComponent<WallCreator>().GetMapa();
+        
+    }
+    /// <summary>
+    /// Get data for generation wall
+    /// </summary>
+    /// <returns>[sizeX, sizeZ, gridDelta]</returns>
+    public int[] GetSize()
+    {
+        return new int[] {sizeX,sizeZ,gridDelta };
     }
 
     void InitStart()
@@ -61,6 +44,7 @@ public class PathCreator : MonoBehaviour
         sizeX = (int)(terrainSize.x / gridDelta);
         sizeZ = (int)(terrainSize.z / gridDelta);
         grid = new PathNode[sizeX, sizeZ];
+        mapa = this.gameObject.GetComponent<WallCreator>().GetMapa();
         for (int x = 0; x < sizeX; x++)
         {
             for (int z = 0; z < sizeZ; z++)
@@ -75,7 +59,8 @@ public class PathCreator : MonoBehaviour
 
     private void CheckWalkableNodes()
     {
-        for(int i = 0; i <grid.GetLength(0);i++)
+        mapa = this.gameObject.GetComponent<WallCreator>().GetMapa();
+        for (int i = 0; i <grid.GetLength(0);i++)
         {
             for(int j = 0; j<grid.GetLength(1);j++)
             {
@@ -189,6 +174,7 @@ public class PathCreator : MonoBehaviour
 
     public bool CheckWall(Vector2Int input)
     {
+        mapa = this.gameObject.GetComponent<WallCreator>().GetMapa();
         bool retValue = true;
         if (mapa[(int)(input.x / gridDelta), (int)(input.y / gridDelta)] == 1)
             retValue = false;

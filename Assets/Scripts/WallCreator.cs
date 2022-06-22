@@ -6,18 +6,41 @@ public class WallCreator : MonoBehaviour
 {
     [SerializeField]
     private GameObject PathCreator;
+    [SerializeField]
+    private GameObject boxModel;
 
     private int[,] mapa = new int[1000,1000];
     // Start is called before the first frame update
     void Start()
     {
-        
-    }
+        int[] data = PathCreator.GetComponent<PathCreator>().GetSize();
+        mapa = new int[data[0], data[1]];
+        for (int x = 0; x < data[0]; x++)
+        {
+            for (int z = 0; z < data[1]; z++)
+            {
+                mapa[x, z] = 0;
+            }
+        }
+        mapa[4 / data[2], 10 / data[2]] = 1;
+        mapa[(int)(14 / data[2]), (int)(16 / data[2])] = 1;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        for (int i = 1; i < mapa.GetLength(0); i += 2)
+        {
+            for (int j = 1; j < mapa.GetLength(1); j += 2)
+            {
+                mapa[i, j] = 1;
+            }
+        }
+
+        for (int i = 0; i < mapa.GetLength(0); i++)
+        {
+            for (int j = 0; j < mapa.GetLength(1); j++)
+            {
+                if (mapa[i, j] == 1)
+                    Instantiate(boxModel, new Vector3(i * data[2], 0, j * data[2]), Quaternion.identity);
+            }
+        }
     }
 
     public Vector2Int[] GetCoordsExplose(Vector3 input)
@@ -42,8 +65,8 @@ public class WallCreator : MonoBehaviour
         Vector2Int sumVec = point;
         for (int i = 0; i <3; i++)
         {
-            if (point.x+side.x>=0 && point.x+side.x<mapa.GetLength(0) 
-                && point.y + side.y >= 0 && point.y + side.y < mapa.GetLength(1))
+            if (sumVec.x+side.x>=0 && sumVec.x+side.x<mapa.GetLength(0) 
+                && sumVec.y + side.y >= 0 && sumVec.y + side.y < mapa.GetLength(1))
             {
                 sumVec += side;
                 outVec.Add(sumVec);
@@ -52,5 +75,21 @@ public class WallCreator : MonoBehaviour
             }
         }
         return outVec.ToArray();
+    }
+
+    public int[,] GetMapa()
+    {
+        UpdateMapa();
+        return mapa;
+    }
+
+    private void UpdateMapa()
+    {
+
+    }
+
+    public void RemoveWall(Vector2Int input)
+    {
+        mapa[input.x, input.y] = 0;
     }
 }
