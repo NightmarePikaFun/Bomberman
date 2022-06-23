@@ -8,6 +8,8 @@ public class WallCreator : MonoBehaviour
     private GameObject PathCreator;
     [SerializeField]
     private GameObject boxModel;
+    [SerializeField]
+    private GameObject destroyWall;
 
     private int[,] mapa = new int[1000,1000];
     // Start is called before the first frame update
@@ -38,9 +40,10 @@ public class WallCreator : MonoBehaviour
             for (int j = 0; j < mapa.GetLength(1); j++)
             {
                 if (mapa[i, j] == 1)
-                    Instantiate(boxModel, new Vector3(i * data[2], 0, j * data[2]), Quaternion.identity);
+                    Instantiate(boxModel, new Vector3(i * data[2], 1, j * data[2]), Quaternion.identity);
             }
         }
+        CreateMap();
     }
 
     public Vector2Int[] GetCoordsExplose(Vector3 input)
@@ -70,7 +73,7 @@ public class WallCreator : MonoBehaviour
             {
                 sumVec += side;
                 outVec.Add(sumVec);
-                if (mapa[sumVec.x,sumVec.y]==1)              
+                if (mapa[sumVec.x,sumVec.y]!=0)              
                     break;
             }
         }
@@ -90,6 +93,24 @@ public class WallCreator : MonoBehaviour
 
     public void RemoveWall(Vector2Int input)
     {
+        Debug.Log(input.x + " " + input.y);
         mapa[input.x, input.y] = 0;
     }
+
+    private void CreateMap()
+    {
+        System.Random rand = new System.Random();
+        for(int i = 0; i < mapa.GetLength(0)-1;i++)
+        {
+            for(int j = 1; j <mapa.GetLength(1);j++)
+            {
+                if (mapa[i,j]!=1 && rand.Next(0, 4) == 2 &&mapa[i,j]!=-1)
+                {
+                    mapa[i, j] = 2;
+                    Instantiate(destroyWall, new Vector3(i * 2, 1, j * 2), Quaternion.identity);
+                }
+            }
+        }
+    }
+
 }

@@ -33,6 +33,7 @@ public class EnemySpawner : MonoBehaviour
         System.Random rand = new System.Random();
         int posX = rand.Next(0,20);//tmp const value
         Instantiate(enemy, new Vector3(44,1,posX*2),Quaternion.identity);
-        Invoke("StartSpawn", 5);
+        if(GameObject.FindGameObjectWithTag("Player")!=null)
+            Invoke("StartSpawn", 5);
     }
 }

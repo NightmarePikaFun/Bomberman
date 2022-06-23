@@ -64,9 +64,9 @@ public class PathCreator : MonoBehaviour
         {
             for(int j = 0; j<grid.GetLength(1);j++)
             {
-                grid[i,j].walkable = true;
-                if (mapa[i, j] == 1)
-                    grid[i, j].walkable = false;
+                grid[i,j].walkable = false;
+                if (mapa[i, j] == 0)
+                    grid[i, j].walkable = true;
             }
         }
     }

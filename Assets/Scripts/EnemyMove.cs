@@ -19,8 +19,11 @@ public class EnemyMove : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         pathCreator = GameObject.FindGameObjectWithTag("Terrain");
-        speed = player.GetComponent<PlayerMove>().GetSpeed();
-        GetNewPoint();
+        if (player != null)
+        {
+            speed = player.GetComponent<PlayerMove>().GetSpeed();
+            GetNewPoint();
+        }
         /*pathCreator.GetComponent<PathCreator>().Astar(new Vector2Int((int)this.transform.position.x/2,
             (int)this.transform.position.z/2), new Vector2Int((int)player.transform.position.x / 2, (int)player.transform.position.z / 2));*/
     }
@@ -28,14 +31,17 @@ public class EnemyMove : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(!EqualsPoint(this.transform.position, pointToGo))
+        if (player != null)
         {
-            this.transform.Translate(vectorToGo);
-        }
-        else
-        {
-            GetNewPoint();
-            //Получить следующую точку
+            if (!EqualsPoint(this.transform.position, pointToGo))
+            {
+                this.transform.Translate(vectorToGo);
+            }
+            else
+            {
+                GetNewPoint();
+                //Получить следующую точку
+            }
         }
     }
 
@@ -89,5 +95,13 @@ public class EnemyMove : MonoBehaviour
             }
         }
         return returnVector;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            Destroy(other.gameObject);
+        }
     }
 }
