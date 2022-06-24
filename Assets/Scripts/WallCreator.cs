@@ -73,7 +73,7 @@ public class WallCreator : MonoBehaviour
             {
                 sumVec += side;
                 outVec.Add(sumVec);
-                if (mapa[sumVec.x,sumVec.y]!=0)              
+                if (mapa[sumVec.x,sumVec.y]>0)              
                     break;
             }
         }
@@ -99,10 +99,14 @@ public class WallCreator : MonoBehaviour
 
     private void CreateMap()
     {
+        mapa[2, 4] = -1;
+        mapa[3, 4] = -1;
+        mapa[1, 4] = -1;
+        mapa[2, 3] = -1;
         System.Random rand = new System.Random();
         for(int i = 0; i < mapa.GetLength(0)-1;i++)
         {
-            for(int j = 1; j <mapa.GetLength(1);j++)
+            for(int j = 0; j <mapa.GetLength(1);j++)
             {
                 if (mapa[i,j]!=1 && rand.Next(0, 4) == 2 &&mapa[i,j]!=-1)
                 {

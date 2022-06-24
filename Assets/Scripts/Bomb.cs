@@ -14,11 +14,17 @@ public class Bomb : MonoBehaviour
     void Start()
     {
         terrain = GameObject.FindGameObjectWithTag("Terrain");
-        Invoke("Explose", 3);
+        Invoke("PlayeSound", 2.5f);
+    }
+
+    private void PlayeSound()
+    {
+        this.gameObject.GetComponent<AudioSource>().Play();
+        Invoke("Explose", 0.5f);
     }
 
     private void Explose()
-    {
+    { 
         //Calc bomb-explose position spawn get Vec2Int[] coords
         Vector2Int[] coords = terrain.GetComponent<WallCreator>().GetCoordsExplose(this.transform.position);
         for(int i = 0;  i<coords.Length;i++)
@@ -32,7 +38,7 @@ public class Bomb : MonoBehaviour
     }
 
     private void DestroyBomb()
-    { 
+    {   
         Destroy(this.gameObject);
     }
 
