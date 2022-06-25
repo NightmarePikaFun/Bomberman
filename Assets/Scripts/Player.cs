@@ -31,9 +31,9 @@ public class Player : MonoBehaviour
         bombInst.SetActive(true);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnDestroy()
     {
-        //Debug.Log("ENTER!");
-        //Debug.Log(collision.gameObject.name);
+        GameObject terrain = GameObject.FindGameObjectWithTag("Terrain");
+        terrain.GetComponent<UIController>().ShowUILose();
     }
 }

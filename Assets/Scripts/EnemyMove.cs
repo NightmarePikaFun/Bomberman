@@ -103,5 +103,9 @@ public class EnemyMove : MonoBehaviour
         {
             Destroy(other.gameObject);
         }
+        if(other.gameObject.tag == "Wall")
+        {
+            Destroy(this.gameObject);
+        }
     }
 }

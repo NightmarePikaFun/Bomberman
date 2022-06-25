@@ -7,6 +7,9 @@ TagManager:
   - Enemy
   - Terrain
   - Wall
+  - uiLose
+  - destroy
+  - WallNotDestroy
   layers:
   - Default
   - TransparentFX

@@ -6,12 +6,11 @@ public class PlayerMove : MonoBehaviour
 {
     [SerializeField]
     private float speed = 0.5f;
-    [SerializeField]
     private GameObject pathCreator;
     // Start is called before the first frame update
     void Start()
     {
-        
+        pathCreator = GameObject.FindGameObjectWithTag("Terrain");
     }
 
     // Update is called once per frame
@@ -38,6 +37,4 @@ public class PlayerMove : MonoBehaviour
     {
         return speed;
     }
-
-    
 }

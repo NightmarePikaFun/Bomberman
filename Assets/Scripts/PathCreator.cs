@@ -111,8 +111,6 @@ public class PathCreator : MonoBehaviour
             node.ParentNode = null;
         }
         CheckWalkableNodes();
-        Debug.Log(sizeX+" t "+ sizeZ);
-        Debug.Log(startNode.x+ " n "+ startNode.y);
         PathNode start = grid[startNode.x, startNode.y];
         start.ParentNode = null;
         start.Distance = 0;
@@ -176,8 +174,15 @@ public class PathCreator : MonoBehaviour
     {
         mapa = this.gameObject.GetComponent<WallCreator>().GetMapa();
         bool retValue = true;
-        if (mapa[(int)(input.x / gridDelta), (int)(input.y / gridDelta)] == 1)
+        if (input.x > -2 && input.x < 50 && input.y > -1 && input.y < 50)
+        {
+            if (mapa[(int)(input.x / gridDelta), (int)(input.y / gridDelta)] == 1)
+                retValue = false;
+        }
+        else
+        {
             retValue = false;
+        }
         return retValue;
     }
 }

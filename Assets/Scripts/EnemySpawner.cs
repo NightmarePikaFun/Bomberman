@@ -24,16 +24,23 @@ public class EnemySpawner : MonoBehaviour
         if(Input.GetKeyUp(KeyCode.J) && active)
         {
             active = false;
-            Invoke("StartSpawn", 5);
+            Invoke("Spawn", 5);
         }
     }
 
-    private void StartSpawn()
+    private void Spawn()
     {
+        Debug.Log("Spawn");
         System.Random rand = new System.Random();
         int posX = rand.Next(0,20);//tmp const value
-        Instantiate(enemy, new Vector3(44,1,posX*2),Quaternion.identity);
+        Instantiate(enemy, new Vector3(48,1,posX*2),Quaternion.identity);
         if(GameObject.FindGameObjectWithTag("Player")!=null)
-            Invoke("StartSpawn", 5);
+            Invoke("Spawn", 5);
+    }
+
+    public void StartSpawn()
+    {
+        Debug.Log("StartSpawn");
+        Invoke("Spawn", 5);
     }
 }
