@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.F))
+        if (Input.GetKeyUp(KeyCode.F) || Input.GetKeyUp(KeyCode.Space))
             PutBomb();
     }
 
@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
     }
 
     private void OnDestroy()
-    {
+    {  
         GameObject terrain = GameObject.FindGameObjectWithTag("Terrain");
         terrain.GetComponent<UIController>().ShowUILose();
     }

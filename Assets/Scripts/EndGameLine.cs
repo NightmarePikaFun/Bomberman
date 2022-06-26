@@ -23,6 +23,7 @@ public class EndGameLine : MonoBehaviour
             //Find game object with tag and remove tag
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             player.tag = "Untagged";//New tag PlayerFalse or kill ???
+            terrain.GetComponent<UIController>().PlayWinMusic();
             textEndGame.SetActive(true);
             Debug.Log("EndGame");
             //this.gameObject.SetActive(false);

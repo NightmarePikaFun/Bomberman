@@ -74,8 +74,8 @@ public class WallCreator : MonoBehaviour
                 mapa[x, z] = 0;
             }
         }
-        mapa[4 / data[2], 10 / data[2]] = 1;
-        mapa[(int)(14 / data[2]), (int)(16 / data[2])] = 1;
+        //mapa[4 / data[2], 10 / data[2]] = 1;
+        //mapa[(int)(14 / data[2]), (int)(16 / data[2])] = 1;
         for (int i = 1; i < mapa.GetLength(0); i += 2)
         {
             for (int j = 1; j < mapa.GetLength(1); j += 2)
@@ -96,6 +96,63 @@ public class WallCreator : MonoBehaviour
 
     private void CreateMapWall()
     {
+        //create path to end HOW????
+        //tmp
+        System.Random randForPath = new System.Random();
+        int tmpX = 2, tmpY = 4,tmpPlusX =0,tmpPlusY = 0;
+        for(int i = 0; i < 6;i++)
+        {
+            if(i%2==0)
+            {
+                //вбок
+                //Условие что не выходит за рамки
+                tmpPlusY = randForPath.Next(0, 10);
+            }
+            else
+            {
+                //вниз
+                //Условие что не выходит за рамки
+                tmpPlusX = randForPath.Next(0, 10);
+            }
+
+            if(tmpPlusX%2!=0)
+            {
+                tmpPlusX++;
+            }
+            if(tmpPlusY%2!=0)
+            {
+                tmpPlusY++;
+            }
+            if (tmpX + tmpPlusX > mapa.GetLength(0) - 1)
+            {
+                tmpPlusX = mapa.GetLength(0) - 1 - tmpX;
+            }
+            if (tmpY + tmpPlusY > mapa.GetLength(1) - 1)
+            {
+                tmpPlusY = mapa.GetLength(1) - 1 - tmpY;
+            }
+
+            for (int x = tmpX; x<tmpX+tmpPlusX;x++)
+            {
+                mapa[x, tmpY] = -1;
+            }
+            for (int y = tmpY; y < tmpY + tmpPlusY; y++)
+            {
+                mapa[tmpX, y] = -1;
+            }
+            tmpX += tmpPlusX;
+            tmpY += tmpPlusY;
+        }
+
+        if(tmpY<mapa.GetLength(1))
+        {
+            tmpPlusY = mapa.GetLength(1) - 1 - tmpY;
+        }
+        for (int y = tmpY; y < tmpY + tmpPlusY; y++)
+        {
+            mapa[tmpX, y] = -1;
+        }
+
         mapa[2, 4] = -1;
         mapa[3, 4] = -1;
         mapa[1, 4] = -1;

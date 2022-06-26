@@ -65,7 +65,7 @@ public class PathCreator : MonoBehaviour
             for(int j = 0; j<grid.GetLength(1);j++)
             {
                 grid[i,j].walkable = false;
-                if (mapa[i, j] == 0)
+                if (mapa[i, j] <= 0)
                     grid[i, j].walkable = true;
             }
         }
@@ -107,7 +107,6 @@ public class PathCreator : MonoBehaviour
         //  Очищаем все узлы - сбрасываем отметку родителя, снимаем подсветку
         foreach (var node in grid)
         {
-            //node.Fade();
             node.ParentNode = null;
         }
         CheckWalkableNodes();
@@ -120,18 +119,15 @@ public class PathCreator : MonoBehaviour
         {
             Vector2Int current = pq.Dequeue();
             float len;
-            //  Если достали целевую - можно заканчивать (это верно и для A*)
             if (current == finishNode)
                 break;
-            //  Получаем список соседей
             var neighbours = GetNeighbours(current);
             foreach (var pathPoint in neighbours)
             {
                 if (grid[pathPoint.x, pathPoint.y].walkable && grid[pathPoint.x, pathPoint.y].Distance > grid[current.x, current.y].Distance + PathNode.Dist(grid[pathPoint.x, pathPoint.y], grid[current.x, current.y]))
                 {
-                    //grid[pathPoint.x, pathPoint.y].Red();
                     grid[pathPoint.x, pathPoint.y].ParentNode = grid[current.x, current.y];
-                    len = grid[pathPoint.x, pathPoint.y].Distance + PathNode.Dist(grid[pathPoint.x, pathPoint.y], grid[finishNode.x, finishNode.y]);//(Mathf.Sqrt(Mathf.Pow(finishNode.x - pathPoint.x, 2)+Mathf.Pow(finishNode.y- pathPoint.y,2)));
+                    len = grid[pathPoint.x, pathPoint.y].Distance + PathNode.Dist(grid[pathPoint.x, pathPoint.y], grid[finishNode.x, finishNode.y]);
                     pq.Enqueue(len, pathPoint);
                 }
                 ds++;
@@ -141,8 +137,6 @@ public class PathCreator : MonoBehaviour
         Vector3 outElem = pathElem.worldPosition;
         while (pathElem != null)
         {
-            //pathElem.Illuminate();
-            //Instantiate(nodeModel2, pathElem.worldPosition, Quaternion.identity);
             if(pathElem.ParentNode!=null || ds==0)
             {
                 outElem = pathElem.worldPosition;
