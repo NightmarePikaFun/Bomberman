@@ -3,6 +3,6 @@ Game Bomberman
 
 Controlls:
 
-  Move: WASD
+  1.Move: WASD
   
-  Place bomb: Space or F
+  2.Place bomb: Space or F
