@@ -6,24 +6,51 @@ public class PlayerMove : MonoBehaviour
 {
     [SerializeField]
     private float speed = 0.5f;
+    [SerializeField]
     private GameObject pathCreator;
+    [SerializeField]
+    private GameObject playerModel;
+
+    private Animator playerAnimtor;
     // Start is called before the first frame update
     void Start()
     {
         pathCreator = GameObject.FindGameObjectWithTag("Terrain");
+        playerAnimtor = playerModel.GetComponent<Animator>();
+
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         if (Input.GetKey(KeyCode.W))
-            CanMove(new Vector3(-speed, 0, 0));//this.transform.Translate(new Vector3(-speed, 0, 0));
+        {
+            playerAnimtor.SetBool("Move", true);
+            playerModel.transform.rotation = Quaternion.Euler(0, 90, 0);
+            CanMove(new Vector3(-speed, 0, 0));
+        }
         else if (Input.GetKey(KeyCode.S))
-            CanMove(new Vector3(speed, 0, 0)); //this.transform.Translate(new Vector3(speed, 0, 0));
+        {
+            playerAnimtor.SetBool("Move", true);
+            playerModel.transform.rotation = Quaternion.Euler(0, -90, 0);
+            CanMove(new Vector3(speed, 0, 0));
+        }
         else if (Input.GetKey(KeyCode.A))
-            CanMove(new Vector3(0, 0, -speed)); //this.transform.Translate(new Vector3(0, 0, -speed));
+        {
+            playerAnimtor.SetBool("Move", true);
+            playerModel.transform.rotation = Quaternion.Euler(0, 0, 0);
+            CanMove(new Vector3(0, 0, -speed));
+        }
         else if (Input.GetKey(KeyCode.D))
-            CanMove(new Vector3(0, 0, +speed)); //this.transform.Translate(new Vector3(0, 0, speed));
+        {
+            playerAnimtor.SetBool("Move", true);
+            playerModel.transform.rotation = Quaternion.Euler(0, -180, 0);
+            CanMove(new Vector3(0, 0, +speed));
+        }
+        else
+        {
+            playerAnimtor.SetBool("Move", false);
+        }
     }
 
     private void CanMove(Vector3 inputTransform)

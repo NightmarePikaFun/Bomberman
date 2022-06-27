@@ -96,61 +96,33 @@ public class WallCreator : MonoBehaviour
 
     private void CreateMapWall()
     {
-        //create path to end HOW????
-        //tmp
         System.Random randForPath = new System.Random();
-        int tmpX = 2, tmpY = 4,tmpPlusX =0,tmpPlusY = 0;
+        int xPathCoord = 2, yPasCoord = 4,xPlusPathCoord =0,yPlusPathCoord = 0;
         for(int i = 0; i < 6;i++)
         {
             if(i%2==0)
             {
-                //вбок
-                //Условие что не выходит за рамки
-                tmpPlusY = randForPath.Next(0, 10);
+                yPlusPathCoord = randForPath.Next(0, 5)*2;
+                SafeRoot(yPasCoord, xPathCoord, yPlusPathCoord, 1);
             }
             else
             {
-                //вниз
-                //Условие что не выходит за рамки
-                tmpPlusX = randForPath.Next(0, 10);
+                xPlusPathCoord = randForPath.Next(0, 5)*2;
+                SafeRoot(xPathCoord,yPasCoord,xPlusPathCoord,0);
             }
-
-            if(tmpPlusX%2!=0)
-            {
-                tmpPlusX++;
-            }
-            if(tmpPlusY%2!=0)
-            {
-                tmpPlusY++;
-            }
-            if (tmpX + tmpPlusX > mapa.GetLength(0) - 1)
-            {
-                tmpPlusX = mapa.GetLength(0) - 1 - tmpX;
-            }
-            if (tmpY + tmpPlusY > mapa.GetLength(1) - 1)
-            {
-                tmpPlusY = mapa.GetLength(1) - 1 - tmpY;
-            }
-
-            for (int x = tmpX; x<tmpX+tmpPlusX;x++)
-            {
-                mapa[x, tmpY] = -1;
-            }
-            for (int y = tmpY; y < tmpY + tmpPlusY; y++)
-            {
-                mapa[tmpX, y] = -1;
-            }
-            tmpX += tmpPlusX;
-            tmpY += tmpPlusY;
+            xPathCoord += xPlusPathCoord;
+            yPasCoord += yPlusPathCoord;
+            yPlusPathCoord = 0;
+            xPlusPathCoord = 0;
         }
 
-        if(tmpY<mapa.GetLength(1))
+        if(xPathCoord<mapa.GetLength(0))
         {
-            tmpPlusY = mapa.GetLength(1) - 1 - tmpY;
+            xPlusPathCoord = mapa.GetLength(0) - 1 - xPathCoord;
         }
-        for (int y = tmpY; y < tmpY + tmpPlusY; y++)
+        for (int x = xPathCoord; x < xPathCoord + xPlusPathCoord; x++)
         {
-            mapa[tmpX, y] = -1;
+            mapa[x, yPasCoord] = -1;
         }
 
         mapa[2, 4] = -1;
@@ -168,6 +140,30 @@ public class WallCreator : MonoBehaviour
                     Instantiate(destroyWall, new Vector3(i * 2, 1, j * 2), Quaternion.identity);
                 }
             }
+        }
+    }
+
+    /// <summary>
+    /// Make safe space root
+    /// </summary>
+    /// <param name="startPosChange">change parametre x or y</param>
+    /// <param name="startPosConst">const not change parametre y or x</param>
+    /// <param name="counterValue">change value</param>
+    /// <param name="mapStr">0 or 1 map column or line</param>
+    private void SafeRoot(int startPosChange,int startPosConst, int counterValue, int mapStr)
+    {
+
+        if (startPosChange + counterValue > mapa.GetLength(mapStr) - 1)
+        {
+            counterValue = mapa.GetLength(mapStr) - 1-startPosChange;
+        }
+
+        for (int i = startPosChange; i < startPosChange + counterValue; i++)
+        {
+            if (mapStr == 0)
+                mapa[i, startPosConst] = -1;
+            else
+                mapa[startPosConst, i] = -1;
         }
     }
 

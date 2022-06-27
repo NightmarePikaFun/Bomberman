@@ -8,15 +8,19 @@ public class EnemyMove : MonoBehaviour
     private GameObject player;
     [SerializeField]
     private GameObject pathCreator;
+    [SerializeField]
+    private GameObject enemyModel;
 
     //private Vector3[] pathToTarget;
     private Vector3 pointToGo;
     private Vector3 vectorToGo;
+    private Animator enemyAnimator;
 
     private float speed;
     // Start is called before the first frame update
     void Start()
     {
+        enemyAnimator = enemyModel.GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player");
         pathCreator = GameObject.FindGameObjectWithTag("Terrain");
         if (player != null)
@@ -72,14 +76,17 @@ public class EnemyMove : MonoBehaviour
             zSide = 0;
         xSide = endPoint.x-startPoint.x;
         zSide = endPoint.z - startPoint.z;
+        Quaternion euler = Quaternion.Euler(0,0,0);
         if(Mathf.Abs(xSide)> Mathf.Abs(zSide))
         {
             if(xSide>0)
             {
+                euler = Quaternion.Euler(0, -90, 0);
                 returnVector = new Vector3(speed, 0, 0);
             }
             else
             {
+                euler = Quaternion.Euler(0, 90, 0);
                 returnVector = new Vector3(-speed, 0, 0);
             }
         }
@@ -87,13 +94,16 @@ public class EnemyMove : MonoBehaviour
         {
             if (zSide > 0)
             {
+                euler = Quaternion.Euler(0, -180, 0);
                 returnVector = new Vector3(0, 0, speed);
             }
             else
             {
+                euler = Quaternion.Euler(0, 0, 0);
                 returnVector = new Vector3(0, 0, -speed);
             }
         }
+        enemyModel.transform.rotation = euler;
         return returnVector;
     }
 

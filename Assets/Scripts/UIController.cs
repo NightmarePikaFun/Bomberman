@@ -32,6 +32,9 @@ public class UIController : MonoBehaviour
         DestroyObject(obj);
         obj = GameObject.FindGameObjectsWithTag("Player");
         DestroyObject(obj);
+        //TMP
+        obj = GameObject.FindGameObjectsWithTag("destroy");
+        DestroyObject(obj);
         Invoke("StartGame",1);
         
     }
